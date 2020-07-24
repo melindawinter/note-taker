@@ -1,9 +1,10 @@
-// DEPENDENCIES
+// Dependencies
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
 
-// EXPRESS CONFIGURATION
+// Router
+const htmlRoutes = require("./routes/htmlRoutes");
+const apiRoutes = require("./routes/apiRoutes");
+
 // Tells node that we are creating an "express" server
 const app = express();
 
@@ -14,12 +15,10 @@ const PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname));
-
-// Router
-require("./routes/router")(app);
+app.use("/", htmlRoutes);
+app.use("/api", apiRoutes);
 
 // Listener to start the server
-
 app.listen(PORT, function () {
   console.log("App listening on PORT: " + PORT);
 });
