@@ -1,47 +1,28 @@
+const router = require("express").Router();
+const storeNotes = require("../db/storeNotes");
 
-const fs = require('fs');
-const path = require ('path');
+// API get request for retrieving existing notes
+router.get("/notes", function (req, res) {
+  storeNotes
+    .retrieveNotes()
+    .then((notes) => res.json(notes))
+    .catch((err) => res.status(500).json(err));
+});
 
+// API post request for posting a new note
+router.post("/notes", function (req, res) {
+  storeNotes
+    .addNote()
+    .then((note) => res.json(note))
+    .catch((err) => res.status(500).json(err));
+});
 
-module.exports = function (app) {
-  
-  // Function to get notes
-  fs.readFile("db/db.json", "utf8", (err, data) => {
-    if (err) throw err;
-    // Create notes variable
-    let notes = JSON.parse(data);
-  }
+// API delete request for deleting a note
+router.delete("/notes/:id", function (req, res) {
+  storeNotes
+    .removeNote(req.params.id)
+    .then((note) => res.json(note))
+    .catch((err) => res.status(500).json(err));
+});
 
-  
-  
-  // API GET Requests
-app.get("/api/notes", function (req, res) {
-    res.json(notes);
-  });
-
-
-  // API POST Requests
-
-  app.post("/api/notes", function (req, res) {
-let newNote = 
-      notes.push(newNote);
-      res.json(true);
-updateDataBase()
-    
-  });
-
-
-
-  // Update the db.json file when a note is added or removed
-  function updateDataBase() {
-    fs.writeFile("db/db.json", JSON.stringify(notes, "\t"), err => {
-      if (err) throw err;
-      return true;
-    }
-    
-    ) ;
-  }
-
-
-}
-
+module.exports = router;
