@@ -1,20 +1,43 @@
 const fs = require("fs");
-const path = require("path");
+const util = require("util");
 
-
-// Update the db.json file when a note is added or removed
-function updateDataBase() {
-    fs.writeFile("db/db.json", JSON.stringify(notes, "\t"), err => {
-      if (err) throw err;
-      return true;
-    }
-
-    ) ;
+class Notes {
+  constructor() {
+    this.lastID = 0;
   }
-
-  //   // Function to get notes
-  fs.readFile("db/db.json", "utf8", (err, data) => {
-    if (err) throw err;
-    // Create notes variable
-    let notes = JSON.parse(data);
+  read() {
+    return util.promisify(fs.readFile("db/db.json", "utf8"));
   }
+  write(note) {
+    return util.promisify(fs.writeFile("db/db.json", JSON.stringify(note)));
+  }
+  retrieveNotes() {
+    return this.read().then((notes) => {
+      let formattedNote;
+      try {
+        formattedNote = [].concat(JSON.parse(notes));
+      } catch (err) {
+        formattedNote = [];
+      }
+      return formattedNote;
+    });
+  }
+  addNote(note) {
+    const { noteTitle, noteText } = note;
+    const newNote = { noteTitle, noteText, id: ++this.lastID };
+    return this.retrieveNotes()
+      .then((notes) => [...notes, newNote])
+      .then((updatedNotes) => this.write(updatedNotes))
+      .then(() => newNote);
+  }
+  removeNote(id) {
+    return (
+      this.retrieveNotes
+        // use parseInt to compare the id; this.write at the end
+
+        .then((updatedNotes) => this.write(updatedNotes))
+    );
+  }
+}
+
+module.exports = new Notes();
