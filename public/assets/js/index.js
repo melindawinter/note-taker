@@ -6,6 +6,7 @@ const $noteList = $(".list-container .list-group");
 
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
+let notes = [];
 
 // A function for getting all notes from the db
 const getNotes = () => {
@@ -126,7 +127,7 @@ const renderNoteList = (notes) => {
   if (notes.length === 0) {
     noteListItems.push(create$li("No saved Notes", false));
   }
-
+  // TODO this function is causing an error
   notes.forEach((note) => {
     const $li = create$li(note.title).data(note);
     noteListItems.push($li);
