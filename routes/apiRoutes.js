@@ -10,18 +10,18 @@ router.get("/notes", function (req, res) {
 });
 
 // API post request for posting a new note
-router.post("/notes", function (req, res) {
+router.post("/notes", (req, res) => {
   storeNotes
-    .addNote()
+    .addNote(req.body)
     .then((note) => res.json(note))
     .catch((err) => res.status(500).json(err));
 });
 
 // API delete request for deleting a note
-router.delete("/notes/:id", function (req, res) {
+router.delete("/notes/:id", (req, res) => {
   storeNotes
     .removeNote(req.params.id)
-    .then((note) => res.json(note))
+    .then(() => res.json({ ok: true }))
     .catch((err) => res.status(500).json(err));
 });
 
