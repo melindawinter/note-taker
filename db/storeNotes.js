@@ -16,13 +16,13 @@ class Notes {
   }
   retrieveNotes() {
     return this.read().then((notes) => {
-      let formattedNote;
+      let formattedNotes;
       try {
-        formattedNote = [].concat(JSON.parse(notes));
+        formattedNotes = [].concat(JSON.parse(notes));
       } catch (err) {
-        formattedNote = [];
+        formattedNotes = [];
       }
-      return formattedNote;
+      return formattedNotes;
     });
   }
   addNote(note) {
