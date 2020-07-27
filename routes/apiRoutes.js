@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const storeNotes = require("../db/storeNotes");
+const storeNotes = require("../db/storeNotes.js");
 
 // API get request for retrieving existing notes
 router.get("/notes", function (req, res) {
@@ -13,7 +13,7 @@ router.get("/notes", function (req, res) {
 router.post("/notes", (req, res) => {
   storeNotes
     .addNote(req.body)
-    .then((note) => res.json(note))
+    .then((notes) => res.json(notes))
     .catch((err) => res.status(500).json(err));
 });
 
