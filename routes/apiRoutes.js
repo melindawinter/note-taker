@@ -19,10 +19,10 @@ router.post("/notes", (req, res) => {
 });
 
 // API delete request for deleting a note
-router.delete("/notes/:id", (req, res) => {
+router.delete("/notes/:id", function (req, res) {
   storeNotes
     .removeNote(req.params.id)
-    .then(() => res.json({ ok: true }))
+    .then(() => res.json({ success: true }))
     .catch(err => res.status(500).json(err));
 });
 

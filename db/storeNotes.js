@@ -27,7 +27,8 @@ class Notes {
   }
   addNote(note) {
     const { title, text } = note;
-    const newNote = { title, text, id: ++this.lastID };
+    let newNote = { title, text, id: ++this.lastID };
+
     return this.retrieveNotes()
       .then(notes => [...notes, newNote])
       .then(updatedNotes => this.write(updatedNotes))
