@@ -15,7 +15,7 @@ class Notes {
     return writeFileAsync("db/db.json", JSON.stringify(note));
   }
   retrieveNotes() {
-    return this.read().then((notes) => {
+    return this.read().then(notes => {
       let formattedNotes;
       try {
         formattedNotes = [].concat(JSON.parse(notes));
@@ -27,19 +27,16 @@ class Notes {
   }
   addNote(note) {
     const { title, text } = note;
-    if (!title || !text) {
-      throw new Error("Please add a title and note text.");
-    }
     const newNote = { title, text, id: ++this.lastID };
     return this.retrieveNotes()
-      .then((notes) => [...notes, newNote])
-      .then((updatedNotes) => this.write(updatedNotes))
+      .then(notes => [...notes, newNote])
+      .then(updatedNotes => this.write(updatedNotes))
       .then(() => newNote);
   }
   removeNote(id) {
     return this.retrieveNotes()
-      .then((notes) => notes.filter((note) => note.id !== parseInt(id)))
-      .then((remainingNotes) => this.write(remainingNotes));
+      .then(notes => notes.filter(note => note.id !== parseInt(id)))
+      .then(remainingNotes => this.write(remainingNotes));
   }
 }
 

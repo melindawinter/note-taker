@@ -16,7 +16,7 @@ const getNotes = () => {
 };
 
 // A function for saving a note to the db
-const saveNote = (note) => {
+const saveNote = note => {
   return $.ajax({
     url: "/api/notes",
     data: note,
@@ -25,9 +25,9 @@ const saveNote = (note) => {
 };
 
 // A function for deleting a note from the db
-const deleteNote = (id) => {
+const deleteNote = id => {
   return $.ajax({
-    url: "api/notes/" + id,
+    url: "/api/notes/" + id,
     method: "DELETE",
   });
 };
@@ -60,6 +60,7 @@ const handleNoteSave = function () {
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
+    console.log(newNote);
   });
 };
 
@@ -103,10 +104,11 @@ const handleRenderSaveBtn = function () {
 };
 
 // Render's the list of note titles
-const renderNoteList = (notes) => {
+const renderNoteList = notes => {
   $noteList.empty();
   // TODO changed to let
   let noteListItems = [];
+  console.log(notes);
 
   // Returns jquery object for li with given text and delete button
   // unless withDeleteButton argument is provided as false
@@ -125,10 +127,10 @@ const renderNoteList = (notes) => {
   };
 
   if (notes.length === 0) {
-    noteListItems.push(create$li("No saved Notes", false));
+    noteListItems.push(create$li("No saved notes", false));
   }
   // TODO this function is causing an error
-  notes.forEach((note) => {
+  notes.forEach(note => {
     const $li = create$li(note.title).data(note);
     noteListItems.push($li);
   });
